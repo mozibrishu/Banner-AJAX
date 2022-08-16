@@ -35,7 +35,7 @@ if(!$ret){
 }
 $sql =<<<EOF
       INSERT INTO peoplesInfo (NAME,EMAIL,MOBILE,DIVISION)
-      VALUES (1, 'Maxsu', 26, 'Haikou', 20000.00 );
+      VALUES ('Maxsu', 'adfdas@gmail', '0129212331', 'Dhaka' );
 EOF;
 
    $ret = $db->exec($sql);
