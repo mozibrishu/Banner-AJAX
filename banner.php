@@ -9,6 +9,7 @@
     <style>
         * {
             box-sizing: border-box;
+            margin: 0;
         }
 
         .banner {
@@ -16,7 +17,6 @@
             height: 250px;
             background-color: #f4f7f8;
             padding: 5px;
-            margin: 100px auto;
         }
 
         #name,
@@ -62,9 +62,7 @@ legend{
             color: #495C83;
         }
 
-        body {
-            background-color: teal;
-        }
+        
         .container{
             margin: auto;
         }
@@ -72,14 +70,13 @@ legend{
 </head>
 
 <body>
-    <div class="container">
     <div class="banner">
         <fieldset>
             <legend>User Information</legend>
             <form action="formSubmit.php" method="post">
                 <input type="text" id="name" name="name" required placeholder="Your Name *"><br>
                 <input type="email" id="email" name="email" required placeholder="Your Email *"><br>
-                <input type="number" id="mobile" name="mobile" placeholder="Mobile Number *"><br>
+                <input type="text" pattern="[0-9]+" minlength="4" maxlength="10" id="mobile" name="mobile" placeholder="Mobile Number *"><br>
 
                 <label for="division" id="division-label">Division:</label>
                 <select name="division" id="division">
@@ -96,7 +93,7 @@ legend{
                 <input type="submit" value="Submit">
         </fieldset>
         </form>
-    </div>
+
     </div>
 
 </body>
