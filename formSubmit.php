@@ -6,8 +6,6 @@ $mobile = $_POST['mobile'];
 $division = $_POST['division'];
 
 
-echo $name."<br>";
-
 class SQLiteDB extends SQLite3
 {
   function __construct()
@@ -21,28 +19,21 @@ if(!$db){
   echo $db->lastErrorMsg();
 }
 
-$sql =<<<EOF
-      CREATE TABLE if not exists peoplesInfo
-      (NAME       TEXT    NOT NULL,
-        EMAIL CHAR(50)     NOT NULL,
-      MOBILE CHAR(15) NOT NULL,
-      DIVISION CHAR(20) NOT NULL);
-EOF;
+$sql ="CREATE TABLE if not exists peoplesInfo (NAME TEXT NOT NULL, EMAIL CHAR(50) NOT NULL, MOBILE CHAR(15) NOT NULL, DIVISION CHAR(20) NOT NULL)";
 
 $ret = $db->exec($sql);
 if(!$ret){
   echo $db->lastErrorMsg();
 }
-$sql =<<<EOF
-      INSERT INTO peoplesInfo (NAME,EMAIL,MOBILE,DIVISION)
-      VALUES ('$name', '$email', '$mobile', '$division' );
-EOF;
+$sql ="INSERT INTO peoplesInfo (NAME,EMAIL,MOBILE,DIVISION) VALUES ('$name','$email', '$mobile', '$division')";
 
    $ret = $db->exec($sql);
    if(!$ret){
       echo $db->lastErrorMsg();
    } else {
-      echo "Yes, Some Records has Inserted successfully<br/>\n";
+    $db->close();
+      header("Location: /assignment1/userInfo.php");
+      exit();
    }
    $db->close();
 ?>
