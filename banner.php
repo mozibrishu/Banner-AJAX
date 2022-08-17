@@ -70,6 +70,13 @@
             color: #495C83;
         }
 
+        .disabled{
+            background-color: grey !important;
+            pointer-events: none;
+        }
+        .enabled{
+            pointer-events: stroke;
+        }
 
         .container {
             margin: auto;
@@ -81,10 +88,10 @@
     <div class="banner">
         <fieldset>
             <legend>User Information</legend>
-            <form action="formSubmit.php" method="post">
-                <input type=" text" id="name" name="name" required placeholder="Your Name *"><br>
+            <form action="formSubmit.php" method="post" id="form">
+                <input type=" text" id="name" name="name" required placeholder="Your Name *" onkeyup="checkName()" ><br>
                 <input type="email" id="email" name="email" required placeholder="Your Email *"><br>
-                <input type="number" id="mobile" name="mobile" placeholder="Mobile Number *" onkeyup="checkMobileNumber()"><br>
+                <input type="number" id="mobile" name="mobile" placeholder="Mobile Number *" onkeyup="checkMobileNumber()" required><br>
 
                 <label for="division" id="division-label">Division:</label>
                 <select name="division" id="division">
@@ -98,7 +105,7 @@
                     <option value="Sylhet">Sylhet</option>
                 </select>
                 <br><br>
-                <input type="submit" value="Submit">
+                <input type="submit" value="Submit" id="submitBtn" class="disabled">
         </fieldset>
         </form>
 
@@ -109,14 +116,37 @@
             var mobilePattern = /^(?:\+88|88)?(01[3-9]\d{8})$/;
             if (mobileNum.match(mobilePattern)) {
                 document.getElementById('mobile').classList.remove("error");
+                document.getElementById('submitBtn').classList.remove("disabled");
+                document.getElementById('submitBtn').classList.add("enabled");
                 return true;
             } else {
                 document.getElementById('mobile').classList.add("error");
+                document.getElementById('submitBtn').classList.add("disabled");
+                document.getElementById('submitBtn').classList.remove("enabled");
                 return false;
             }
         }
-
-        
+        function checkName(){
+            var nameLength = document.getElementById('name').value.length;
+            if(nameLength == 0 ){
+                document.getElementById('name').classList.add("error");
+                return false;
+            } else{
+                document.getElementById('name').classList.remove("error");
+                return true;
+            }
+        }
+        function checkEmail(){
+            var email = document.getElementById('email').value;
+            var emailPattern = /^(?:\+88|88)?(01[3-9]\d{8})$/;
+            if (email.match(emailPattern)) {
+                document.getElementById('email').classList.remove("error");
+                return true;
+            } else {
+                document.getElementById('email').classList.add("error");
+                return false;
+            }
+        }
     </script>
 </body>
 
