@@ -15,7 +15,8 @@
 
         table {
             border-collapse: collapse;
-            width: 100%;
+            width: 95%;
+            margin: 0 auto;
         }
 
         td,
