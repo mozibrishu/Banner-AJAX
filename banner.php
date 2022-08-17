@@ -37,14 +37,21 @@
             box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
             margin-bottom: 6px;
         }
-        fieldset{
+
+        fieldset {
             border: 1px solid #495C83;
         }
-legend{
-    font-size: large;
-    font-weight: 800;
-    color: #495C83;
-}
+
+        .error {
+            outline: 1px solid red !important;
+        }
+
+        legend {
+            font-size: large;
+            font-weight: 800;
+            color: #495C83;
+        }
+
         input[type="submit"] {
             position: relative;
             display: block;
@@ -56,14 +63,15 @@ legend{
             width: 100%;
             border: 1px solid whitesmoke;
             border-radius: 5px;
-            padding: 5px ;
+            padding: 5px;
         }
-        #division-label{
+
+        #division-label {
             color: #495C83;
         }
 
-        
-        .container{
+
+        .container {
             margin: auto;
         }
     </style>
@@ -74,9 +82,9 @@ legend{
         <fieldset>
             <legend>User Information</legend>
             <form action="formSubmit.php" method="post">
-                <input type="text" id="name" name="name" required placeholder="Your Name *"><br>
+                <input type=" text" id="name" name="name" required placeholder="Your Name *"><br>
                 <input type="email" id="email" name="email" required placeholder="Your Email *"><br>
-                <input type="text" pattern="[0-9]+" minlength="4" maxlength="10" id="mobile" name="mobile" placeholder="Mobile Number *"><br>
+                <input type="number" id="mobile" name="mobile" placeholder="Mobile Number *" onkeyup="checkMobileNumber()"><br>
 
                 <label for="division" id="division-label">Division:</label>
                 <select name="division" id="division">
@@ -95,7 +103,21 @@ legend{
         </form>
 
     </div>
+    <script>
+        function checkMobileNumber() {
+            var mobileNum = document.getElementById('mobile').value;
+            var mobilePattern = /^(?:\+88|88)?(01[3-9]\d{8})$/;
+            if (mobileNum.match(mobilePattern)) {
+                document.getElementById('mobile').classList.remove("error");
+                return true;
+            } else {
+                document.getElementById('mobile').classList.add("error");
+                return false;
+            }
+        }
 
+        
+    </script>
 </body>
 
 </html>
