@@ -25,7 +25,16 @@ $ret = $db->exec($sql);
 if(!$ret){
   echo $db->lastErrorMsg();
 }
-$sql ="INSERT INTO peoplesInfo (NAME,EMAIL,MOBILE,DIVISION) VALUES ('$name','$email', '$mobile', '$division')";
+$ret = $db->query('SELECT * FROM peoplesInfo');
+$uniqueNumber = true;
+while ($row = $ret->fetchArray()) {
+  if($mobile == $row['MOBILE']){
+    $uniqueNumber = false;
+  }
+}
+
+if($uniqueNumber){
+  $sql ="INSERT INTO peoplesInfo (NAME,EMAIL,MOBILE,DIVISION) VALUES ('$name','$email', '$mobile', '$division')";
 
    $ret = $db->exec($sql);
    if(!$ret){
@@ -36,4 +45,6 @@ $sql ="INSERT INTO peoplesInfo (NAME,EMAIL,MOBILE,DIVISION) VALUES ('$name','$em
       exit();
    }
    $db->close();
-?>
+} else{
+  echo 'Number already in used';
+}
