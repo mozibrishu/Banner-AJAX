@@ -86,6 +86,31 @@
 
 <body>
 <?php
+$htmlCode = '<div class="banner">
+<form action="" method="post" id="form">
+<fieldset>
+<legend>User Information</legend>
+    <input type=" text" id="name" name="name" required placeholder="Your Name *" onkeyup="checkName()" ><br>
+    <input type="email" id="email" name="email" required placeholder="Your Email *"><br>
+    <input type="number" id="mobile" name="mobile" placeholder="Mobile Number *" onkeyup="checkMobileNumber()" required><br>
+
+    <label for="division" id="division-label">Division:</label>
+    <select name="division" id="division">
+        <option value="Dhaka">Dhaka</option>
+        <option value="Chattogram">Chattogram</option>
+        <option value="Khulna">Khulna</option>
+        <option value="Barishal">Barishal</option>
+        <option value="Rajshahi">Rajshahi</option>
+        <option value="Rangpur">Rangpur</option>
+        <option value="Mymensingh ">Mymensingh </option>
+        <option value="Sylhet">Sylhet</option>
+    </select>
+    <br><br>
+    <input type="submit" value="Submit" id="submitBtn" name="submit" class="disabled">
+</fieldset>
+</form>
+
+</div>';
 
 if(isset($_POST['submit'])){
     $name = $_POST['name'];
@@ -135,33 +160,13 @@ if(isset($_POST['submit'])){
        $db->close();
     } else{
         echo '<script>alert("Number already used")</script>';
+        echo $htmlCode;
+        echo '<script>
+        document.ger
+        </script>';
     }
 }else{
-    echo '<div class="banner">
-    <form action="" method="post" id="form">
-    <fieldset>
-    <legend>User Information</legend>
-        <input type=" text" id="name" name="name" required placeholder="Your Name *" onkeyup="checkName()" ><br>
-        <input type="email" id="email" name="email" required placeholder="Your Email *"><br>
-        <input type="number" id="mobile" name="mobile" placeholder="Mobile Number *" onkeyup="checkMobileNumber()" required><br>
-
-        <label for="division" id="division-label">Division:</label>
-        <select name="division" id="division">
-            <option value="Dhaka">Dhaka</option>
-            <option value="Chattogram">Chattogram</option>
-            <option value="Khulna">Khulna</option>
-            <option value="Barishal">Barishal</option>
-            <option value="Rajshahi">Rajshahi</option>
-            <option value="Rangpur">Rangpur</option>
-            <option value="Mymensingh ">Mymensingh </option>
-            <option value="Sylhet">Sylhet</option>
-        </select>
-        <br><br>
-        <input type="submit" value="Submit" id="submitBtn" name="submit" class="disabled">
-</fieldset>
-</form>
-
-</div>';
+    echo $htmlCode;
 }
 ?>
     <script>
