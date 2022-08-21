@@ -15,7 +15,7 @@
         .banner {
             width: 300px;
             height: 250px;
-            background-color: #f4f7f8;
+            background-color: #E2DCC8;
             padding: 5px;
         }
 
@@ -39,7 +39,7 @@
         }
 
         fieldset {
-            border: 1px solid #495C83;
+            border: none;
         }
 
         .error {
@@ -82,106 +82,81 @@
         .container {
             margin: auto;
         }
+
+        #errorCheck{
+            color: red;
+        }
     </style>
 </head>
 
 <body>
-    <?php
-    $htmlCode = '<div class="banner">
-<form action="" method="post" id="form">
-<fieldset>
-<legend>User Information</legend>
-    <input type=" text" id="name" name="name" required placeholder="Your Name *" onkeyup="checkName()" ><br>
-    <input type="email" id="email" name="email" required placeholder="Your Email *"><br>
-    <input type="number" id="mobile" name="mobile" placeholder="Mobile Number *" onkeyup="checkMobileNumber()" required><br>
-
-    <label for="division" id="division-label">Division:</label>
-    <select name="division" id="division">
-        <option value="Dhaka">Dhaka</option>
-        <option value="Chattogram">Chattogram</option>
-        <option value="Khulna">Khulna</option>
-        <option value="Barishal">Barishal</option>
-        <option value="Rajshahi">Rajshahi</option>
-        <option value="Rangpur">Rangpur</option>
-        <option value="Mymensingh ">Mymensingh </option>
-        <option value="Sylhet">Sylhet</option>
-    </select>
-    <br><br>
-    <input type="submit" value="Submit" id="submitBtn" name="submit" class="disabled">
-</fieldset>
-</form>
-
-</div>';
-
-    if (isset($_POST['submit'])) {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $mobile = $_POST['mobile'];
-        $division = $_POST['division'];
-
-
-        class SQLiteDB extends SQLite3
-        {
-            function __construct()
-            {
-                $this->open('information.sqlite');
-            }
-        }
-
-        $db = new SQLiteDB();
-        if (!$db) {
-            echo $db->lastErrorMsg();
-        }
-
-        $sql = "CREATE TABLE if not exists peoplesInfo (NAME TEXT NOT NULL, EMAIL CHAR(50) NOT NULL, MOBILE CHAR(15) NOT NULL, DIVISION CHAR(20) NOT NULL)";
-
-        $ret = $db->exec($sql);
-        if (!$ret) {
-            echo $db->lastErrorMsg();
-        }
-        $ret = $db->query('SELECT * FROM peoplesInfo');
-        $uniqueNumber = true;
-        while ($row = $ret->fetchArray()) {
-            if ($mobile == $row['MOBILE']) {
-                $uniqueNumber = false;
-            }
-        }
-
-        if ($uniqueNumber) {
-            $sql = "INSERT INTO peoplesInfo (NAME,EMAIL,MOBILE,DIVISION) VALUES ('$name','$email', '$mobile', '$division')";
-
-            $ret = $db->exec($sql);
-            if (!$ret) {
-                echo $db->lastErrorMsg();
-            } else {
-                $db->close();
-                header("Location: /assignment1/userInfo.php");
-                exit();
-            }
-            $db->close();
-        } else {
-            echo '<script>alert("Number already used")</script>';
-            echo $htmlCode;
-        }
-    } else {
-        echo $htmlCode;
-    }
-    ?>
+    <div class="banner">
+        <form action="#" method="post" id="form">
+            <fieldset>
+                <legend>User Information</legend>
+                <input type=" text" id="name" name="name" required placeholder="Your Name *" onkeyup="checkName()"><br>
+                <input type="email" id="email" name="email" required placeholder="Your Email *"><br>
+                <input type="number" id="mobile" name="mobile" placeholder="Mobile Number *" onkeyup="checkMobileNumber()" required><br>
+                <small id="errorCheck"><br></small>
+                <label for="division" id="division-label">Division:</label>
+                <select name="division" id="division">
+                    <option value="Dhaka">Dhaka</option>
+                    <option value="Chattogram">Chattogram</option>
+                    <option value="Khulna">Khulna</option>
+                    <option value="Barishal">Barishal</option>
+                    <option value="Rajshahi">Rajshahi</option>
+                    <option value="Rangpur">Rangpur</option>
+                    <option value="Mymensingh ">Mymensingh </option>
+                    <option value="Sylhet">Sylhet</option>
+                </select>
+                <br>
+                
+                <input type="submit" value="Submit" id="submitBtn" name="submit" class="disabled">
+            </fieldset>
+        </form>
+    </div>
     <script>
+        function checkingMobile(mobileNum) {
+            var xhttp;
+            if (mobileNum == "") {
+                return;
+            }
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    if ('used' == this.responseText) {
+                        document.getElementById("errorCheck").innerHTML = "*Mobile Number Already used<br>";
+                        document.getElementById('mobile').classList.add("error");
+                        document.getElementById('submitBtn').classList.add("disabled");
+                        document.getElementById('submitBtn').classList.remove("enabled");
+                    } else {
+                        document.getElementById("errorCheck").innerHTML = "<br>";
+                        document.getElementById('mobile').classList.remove("error");
+                        document.getElementById('submitBtn').classList.remove("disabled");
+                        document.getElementById('submitBtn').classList.add("enabled");
+                    }
+
+                }
+            };
+            xhttp.open("GET", "checkMobileNumber.php?q=" + mobileNum, true);
+            xhttp.send();
+        }
+
         function checkMobileNumber() {
             var mobileNum = document.getElementById('mobile').value;
             var mobilePattern = /^(?:\+88|88)?(01[3-9]\d{8})$/;
+            
             if (mobileNum.match(mobilePattern)) {
-                document.getElementById('mobile').classList.remove("error");
-                document.getElementById('submitBtn').classList.remove("disabled");
-                document.getElementById('submitBtn').classList.add("enabled");
+                checkingMobile(mobileNum);
                 return true;
             } else {
+                document.getElementById("errorCheck").innerHTML = "<br>";
                 document.getElementById('mobile').classList.add("error");
                 document.getElementById('submitBtn').classList.add("disabled");
                 document.getElementById('submitBtn').classList.remove("enabled");
                 return false;
             }
+
         }
 
         function checkName() {
@@ -194,7 +169,6 @@
                 return true;
             }
         }
-
     </script>
 </body>
 
