@@ -85,31 +85,85 @@
 </head>
 
 <body>
-    <div class="banner">
-        <fieldset>
-            <legend>User Information</legend>
-            <form action="formSubmit.php" method="post" id="form">
-                <input type=" text" id="name" name="name" required placeholder="Your Name *" onkeyup="checkName()" ><br>
-                <input type="email" id="email" name="email" required placeholder="Your Email *"><br>
-                <input type="number" id="mobile" name="mobile" placeholder="Mobile Number *" onkeyup="checkMobileNumber()" required><br>
+<?php
 
-                <label for="division" id="division-label">Division:</label>
-                <select name="division" id="division">
-                    <option value="Dhaka">Dhaka</option>
-                    <option value="Chattogram">Chattogram</option>
-                    <option value="Khulna">Khulna</option>
-                    <option value="Barishal">Barishal</option>
-                    <option value="Rajshahi">Rajshahi</option>
-                    <option value="Rangpur">Rangpur</option>
-                    <option value="Mymensingh ">Mymensingh </option>
-                    <option value="Sylhet">Sylhet</option>
-                </select>
-                <br><br>
-                <input type="submit" value="Submit" id="submitBtn" class="disabled">
-        </fieldset>
-        </form>
+if(isset($_POST['submit'])){
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $mobile = $_POST['mobile'];
+    $division = $_POST['division'];
+    
+    
+    class SQLiteDB extends SQLite3
+    {
+      function __construct()
+      {
+         $this->open('information.sqlite');
+      }
+    }
+    
+    $db = new SQLiteDB();
+    if(!$db){
+      echo $db->lastErrorMsg();
+    }
+    
+    $sql ="CREATE TABLE if not exists peoplesInfo (NAME TEXT NOT NULL, EMAIL CHAR(50) NOT NULL, MOBILE CHAR(15) NOT NULL, DIVISION CHAR(20) NOT NULL)";
+    
+    $ret = $db->exec($sql);
+    if(!$ret){
+      echo $db->lastErrorMsg();
+    }
+    $ret = $db->query('SELECT * FROM peoplesInfo');
+    $uniqueNumber = true;
+    while ($row = $ret->fetchArray()) {
+      if($mobile == $row['MOBILE']){
+        $uniqueNumber = false;
+      }
+    }
+    
+    if($uniqueNumber){
+      $sql ="INSERT INTO peoplesInfo (NAME,EMAIL,MOBILE,DIVISION) VALUES ('$name','$email', '$mobile', '$division')";
+    
+       $ret = $db->exec($sql);
+       if(!$ret){
+          echo $db->lastErrorMsg();
+       } else {
+        $db->close();
+          header("Location: /assignment1/userInfo.php");
+          exit();
+       }
+       $db->close();
+    } else{
+        echo '<script>alert("Number already used")</script>';
+    }
+}else{
+    echo '<div class="banner">
+    <form action="" method="post" id="form">
+    <fieldset>
+    <legend>User Information</legend>
+        <input type=" text" id="name" name="name" required placeholder="Your Name *" onkeyup="checkName()" ><br>
+        <input type="email" id="email" name="email" required placeholder="Your Email *"><br>
+        <input type="number" id="mobile" name="mobile" placeholder="Mobile Number *" onkeyup="checkMobileNumber()" required><br>
 
-    </div>
+        <label for="division" id="division-label">Division:</label>
+        <select name="division" id="division">
+            <option value="Dhaka">Dhaka</option>
+            <option value="Chattogram">Chattogram</option>
+            <option value="Khulna">Khulna</option>
+            <option value="Barishal">Barishal</option>
+            <option value="Rajshahi">Rajshahi</option>
+            <option value="Rangpur">Rangpur</option>
+            <option value="Mymensingh ">Mymensingh </option>
+            <option value="Sylhet">Sylhet</option>
+        </select>
+        <br><br>
+        <input type="submit" value="Submit" id="submitBtn" name="submit" class="disabled">
+</fieldset>
+</form>
+
+</div>';
+}
+?>
     <script>
         function checkMobileNumber() {
             var mobileNum = document.getElementById('mobile').value;
