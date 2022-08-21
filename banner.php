@@ -70,11 +70,12 @@
             color: #495C83;
         }
 
-        .disabled{
+        .disabled {
             background-color: grey !important;
             pointer-events: none;
         }
-        .enabled{
+
+        .enabled {
             pointer-events: stroke;
         }
 
@@ -85,8 +86,8 @@
 </head>
 
 <body>
-<?php
-$htmlCode = '<div class="banner">
+    <?php
+    $htmlCode = '<div class="banner">
 <form action="" method="post" id="form">
 <fieldset>
 <legend>User Information</legend>
@@ -112,63 +113,60 @@ $htmlCode = '<div class="banner">
 
 </div>';
 
-if(isset($_POST['submit'])){
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $mobile = $_POST['mobile'];
-    $division = $_POST['division'];
-    
-    
-    class SQLiteDB extends SQLite3
-    {
-      function __construct()
-      {
-         $this->open('information.sqlite');
-      }
-    }
-    
-    $db = new SQLiteDB();
-    if(!$db){
-      echo $db->lastErrorMsg();
-    }
-    
-    $sql ="CREATE TABLE if not exists peoplesInfo (NAME TEXT NOT NULL, EMAIL CHAR(50) NOT NULL, MOBILE CHAR(15) NOT NULL, DIVISION CHAR(20) NOT NULL)";
-    
-    $ret = $db->exec($sql);
-    if(!$ret){
-      echo $db->lastErrorMsg();
-    }
-    $ret = $db->query('SELECT * FROM peoplesInfo');
-    $uniqueNumber = true;
-    while ($row = $ret->fetchArray()) {
-      if($mobile == $row['MOBILE']){
-        $uniqueNumber = false;
-      }
-    }
-    
-    if($uniqueNumber){
-      $sql ="INSERT INTO peoplesInfo (NAME,EMAIL,MOBILE,DIVISION) VALUES ('$name','$email', '$mobile', '$division')";
-    
-       $ret = $db->exec($sql);
-       if(!$ret){
-          echo $db->lastErrorMsg();
-       } else {
-        $db->close();
-          header("Location: /assignment1/userInfo.php");
-          exit();
-       }
-       $db->close();
-    } else{
-        echo '<script>alert("Number already used")</script>';
+    if (isset($_POST['submit'])) {
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $mobile = $_POST['mobile'];
+        $division = $_POST['division'];
+
+
+        class SQLiteDB extends SQLite3
+        {
+            function __construct()
+            {
+                $this->open('information.sqlite');
+            }
+        }
+
+        $db = new SQLiteDB();
+        if (!$db) {
+            echo $db->lastErrorMsg();
+        }
+
+        $sql = "CREATE TABLE if not exists peoplesInfo (NAME TEXT NOT NULL, EMAIL CHAR(50) NOT NULL, MOBILE CHAR(15) NOT NULL, DIVISION CHAR(20) NOT NULL)";
+
+        $ret = $db->exec($sql);
+        if (!$ret) {
+            echo $db->lastErrorMsg();
+        }
+        $ret = $db->query('SELECT * FROM peoplesInfo');
+        $uniqueNumber = true;
+        while ($row = $ret->fetchArray()) {
+            if ($mobile == $row['MOBILE']) {
+                $uniqueNumber = false;
+            }
+        }
+
+        if ($uniqueNumber) {
+            $sql = "INSERT INTO peoplesInfo (NAME,EMAIL,MOBILE,DIVISION) VALUES ('$name','$email', '$mobile', '$division')";
+
+            $ret = $db->exec($sql);
+            if (!$ret) {
+                echo $db->lastErrorMsg();
+            } else {
+                $db->close();
+                header("Location: /assignment1/userInfo.php");
+                exit();
+            }
+            $db->close();
+        } else {
+            echo '<script>alert("Number already used")</script>';
+            echo $htmlCode;
+        }
+    } else {
         echo $htmlCode;
-        echo '<script>
-        document.ger
-        </script>';
     }
-}else{
-    echo $htmlCode;
-}
-?>
+    ?>
     <script>
         function checkMobileNumber() {
             var mobileNum = document.getElementById('mobile').value;
@@ -185,27 +183,18 @@ if(isset($_POST['submit'])){
                 return false;
             }
         }
-        function checkName(){
+
+        function checkName() {
             var nameLength = document.getElementById('name').value.length;
-            if(nameLength == 0 ){
+            if (nameLength == 0) {
                 document.getElementById('name').classList.add("error");
                 return false;
-            } else{
+            } else {
                 document.getElementById('name').classList.remove("error");
                 return true;
             }
         }
-        function checkEmail(){
-            var email = document.getElementById('email').value;
-            var emailPattern = /^(?:\+88|88)?(01[3-9]\d{8})$/;
-            if (email.match(emailPattern)) {
-                document.getElementById('email').classList.remove("error");
-                return true;
-            } else {
-                document.getElementById('email').classList.add("error");
-                return false;
-            }
-        }
+
     </script>
 </body>
 
