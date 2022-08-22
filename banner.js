@@ -1,3 +1,20 @@
+//Mobile Number Pattern Check
+function checkMobileNumber() {
+    var mobileNum = document.getElementById('mobile').value;
+    var mobilePattern = /^(?:\+88|88)?(01[3-9]\d{8})$/;
+
+    if (mobileNum.match(mobilePattern)) {
+        checkingMobile(mobileNum);
+        return true;
+    } else {
+        document.getElementById("errorCheck").innerHTML = "*Mobile Number is not valid<br>";
+        document.getElementById('mobile').classList.add("error");
+        document.getElementById('submitBtn').classList.add("disabled");
+        document.getElementById('submitBtn').classList.remove("enabled");
+        return false;
+    }
+}
+// Duplication Check
 function checkingMobile(mobileNum) {
     var xhttp;
     if (mobileNum == "") {
@@ -23,22 +40,7 @@ function checkingMobile(mobileNum) {
     xhttp.open("GET", "checkMobileNumber.php?q=" + mobileNum, true);
     xhttp.send();
 }
-
-function checkMobileNumber() {
-    var mobileNum = document.getElementById('mobile').value;
-    var mobilePattern = /^(?:\+88|88)?(01[3-9]\d{8})$/;
-
-    if (mobileNum.match(mobilePattern)) {
-        checkingMobile(mobileNum);
-        return true;
-    } else {
-        document.getElementById("errorCheck").innerHTML = "<br>";
-        document.getElementById('mobile').classList.add("error");
-        document.getElementById('submitBtn').classList.add("disabled");
-        document.getElementById('submitBtn').classList.remove("enabled");
-        return false;
-    }
-}
+// Email
 function checkEmail() {
     var emailText = document.getElementById('email').value;
     var emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{1,8}$/;
@@ -53,7 +55,7 @@ function checkEmail() {
         return false;
     }
 }
-
+// Name
 function checkName() {
     var nameLength = document.getElementById('name').value.length;
     if (nameLength == 0) {
@@ -67,6 +69,7 @@ function checkName() {
     }
 }
 
+// Submit
 function submitOperation() {
     var name = document.getElementById("name").value;
     var email = document.getElementById("email").value;

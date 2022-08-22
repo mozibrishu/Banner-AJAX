@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Information</title>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <style>
         h1 {
             font-size: 30px;
@@ -53,13 +54,13 @@
         echo $db->lastErrorMsg();
     }
     echo "<h1>User Information</h1>
-<table>
-    <tr>
+<table class='myTable'>
+    <thead><tr>
         <th>NAME</th>
         <th>EMAIL</th>
         <th>MOBILE</th>
         <th>DIVISION</th>
-      </tr>";
+      </tr><thead><tbody>";
     $ret = $db->query('SELECT * FROM peoplesInfo');
     while ($row = $ret->fetchArray()) {
         echo "<tr>
@@ -69,11 +70,18 @@
         <td>{$row['DIVISION']}</td>
       </tr>";
     }
-    echo "</table>";
+    echo "</tbody></table>";
 
 
     $db->close();
     ?>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.myTable').DataTable();
+        });
+    </script>
 </body>
 
 </html>
