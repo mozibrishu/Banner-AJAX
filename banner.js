@@ -37,7 +37,7 @@ function checkingMobile(mobileNum) {
 
         }
     };
-    xhttp.open("GET", "checkMobileNumber.php?q=" + mobileNum, true);
+    xhttp.open("GET", "http://localhost/assignment1/checkMobileNumber.php?q=" + mobileNum, true);
     xhttp.send();
 }
 // Email
@@ -100,7 +100,7 @@ function submitForm(name, email, mobileNum, division) {
             }
         }
     };
-    var submitLink = 'formSubmit.php?name=' + name + '&email=' + email + '&mobile=' + mobileNum + '&division=' + division;
+    var submitLink = 'http://localhost/assignment1/formSubmit.php?name=' + name + '&email=' + email + '&mobile=' + mobileNum + '&division=' + division;
     xhttp.open("GET", submitLink, true);
     xhttp.send();
 }
