@@ -39,7 +39,7 @@
         }
 
         fieldset {
-            border: none;
+            border: 1px solid #495C83;
         }
 
         .error {
@@ -91,7 +91,7 @@
 
 <body>
     <div class="banner">
-        <form action="#" method="post" id="form">
+        <form action="formSubmit.php" method="post" id="form">
             <fieldset>
                 <legend>User Information</legend>
                 <input type=" text" id="name" name="name" required placeholder="Your Name *" onkeyup="checkName()"><br>
@@ -125,7 +125,7 @@
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     if ('used' == this.responseText) {
-                        document.getElementById("errorCheck").innerHTML = "*Mobile Number Already used<br>";
+                        document.getElementById("errorCheck").innerHTML = "*Mobile Number is Already used<br>";
                         document.getElementById('mobile').classList.add("error");
                         document.getElementById('submitBtn').classList.add("disabled");
                         document.getElementById('submitBtn').classList.remove("enabled");
