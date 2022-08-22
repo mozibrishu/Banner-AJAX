@@ -1,9 +1,9 @@
 <?php
 
-$name = $_POST['name'];
-$email = $_POST['email'];
-$mobile = $_POST['mobile'];
-$division = $_POST['division'];
+$name = $_GET['name'];
+$email = $_GET['email'];
+$mobile = $_GET['mobile'];
+$division = $_GET['division'];
 
 
 class SQLiteDB extends SQLite3
@@ -41,7 +41,7 @@ if($uniqueNumber){
       echo $db->lastErrorMsg();
    } else {
     $db->close();
-      header("Location: /assignment1/userInfo.php");
+      echo 'success';
       exit();
    }
    $db->close();
