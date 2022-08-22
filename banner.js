@@ -4,7 +4,11 @@ function checkMobileNumber() {
     var mobilePattern = /^(?:\+88|88)?(01[3-9]\d{8})$/;
 
     if (mobileNum.match(mobilePattern)) {
-        checkingMobile(mobileNum);
+        if(mobileNum.length > 11){
+            checkingMobile(mobileNum.slice(-11));
+        }else{
+            checkingMobile(mobileNum);
+        }
         return true;
     } else {
         document.getElementById("errorCheck").innerHTML = "*Mobile Number is not valid<br>";
@@ -76,12 +80,21 @@ function submitOperation() {
     var mobileNum = document.getElementById("mobile").value;
     var division = document.getElementById("division").value;
     var errorInfo = '';
+
+    if(mobileNum.length > 11){
+        mobileNum= mobileNum.slice(-11);
+    }
     if (!(checkName())) {
         errorInfo = '*Name is not valid';
     }else if(!(checkEmail())){
         errorInfo = "*Email is not Valid"
     }else{
-        submitForm(name, email, mobileNum, division);
+        if(mobileNum.length > 11){
+            submitForm(name, email, mobileNum.slice(-11), division);
+        }else{
+            submitForm(name, email, mobileNum, division);
+        }
+        
     }
 }
 
