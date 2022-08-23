@@ -38,6 +38,8 @@ function checkingMobile(mobileNum) {
                 removeClass('submitBtn', 'disabled');
                 removeClass('mobile', 'error');
             }
+        }else{
+            setInnerHtml("errorCheck","*Server Connection Failed<br>");
         }
     };
     xhttp.open("GET", "http://localhost/assignment1/checkMobileNumber.php?q=" + mobileNum, true);
@@ -106,10 +108,12 @@ function submitForm(name, email, mobileNum, division) {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if ('success' == this.responseText) {
-                setInnerHtml('banner',"<h3 id='successfullyEntered'>Successfully Inserted</h3>");
+                setInnerHtml('banner',"<h3 id='submissionSuccess'>Successfully Inserted</h3>");
             } else {
                 document.getElementById("banner").innerHTML = "<p>" + this.responseText + "</p>";
             }
+        }else{
+            setInnerHtml('banner',"<h3 id='failSubmission'>Submission Failed<br> Server Not Working</h3>");
         }
     };
     var submitLink = 'http://localhost/assignment1/formSubmit.php?name=' + name + '&email=' + email + '&mobile=' + mobileNum + '&division=' + division;

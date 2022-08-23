@@ -77,8 +77,14 @@ legend {
 #errorCheck {
     color: red;
 }
-#successfullyEntered{
+#submissionSuccess{
     color: rgb(170, 243, 127);
+    text-align: center;
+    margin-top: 100px;
+}
+
+#failSubmission{
+    color: rgb(255, 107, 81);
     text-align: center;
     margin-top: 100px;
 }
