@@ -47,5 +47,5 @@ if($uniqueNumber){
    }
    $db->close();
 } else{
-  echo 'Number already in used';
+  echo 'used';
 }
