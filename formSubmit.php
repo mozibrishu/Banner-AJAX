@@ -1,10 +1,10 @@
 <?php header('Access-Control-Allow-Origin: *'); ?>
 <?php
 
-$name = $_GET['name'];
-$email = $_GET['email'];
-$mobile = $_GET['mobile'];
-$division = $_GET['division'];
+$name = $_POST['name'];
+$email = $_POST['email'];
+$mobile = $_POST['mobile'];
+$division = $_POST['division'];
 
 
 class SQLiteDB extends SQLite3

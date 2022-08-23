@@ -104,6 +104,12 @@ function submitForm(name, email, mobileNum, division) {
     if (mobileNum == "" || email == "" || name == "" || division == "") {
         return;
     }
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("mobile", mobileNum);
+    formData.append("division", division);
+
     xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -116,9 +122,9 @@ function submitForm(name, email, mobileNum, division) {
             setInnerHtml('banner',"<h3 id='failSubmission'>Submission Failed<br> Server Not Working</h3>");
         }
     };
-    var submitLink = 'http://localhost/assignment1/formSubmit.php?name=' + name + '&email=' + email + '&mobile=' + mobileNum + '&division=' + division;
-    xhttp.open("GET", submitLink, true);
-    xhttp.send();
+
+    xhttp.open("POST", 'http://localhost/assignment1/formSubmit.php',true);
+    xhttp.send(formData);
 }
 
 // Add remove Get set
