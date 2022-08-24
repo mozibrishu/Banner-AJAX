@@ -7,11 +7,13 @@ function checkMobileNumber() {
         setInnerHtml('errorCheck', "<br>");
         addClass('submitBtn', 'enabled');
         removeClass('submitBtn', 'disabled');
+        addClass('mobile', 'valid');
         removeClass('mobile', 'error');
         return true;
     } else {
         setInnerHtml('errorCheck', "*Mobile Number is not valid<br>");
         addClass('mobile', 'error');
+        removeClass('mobile', 'valid');
         addClass('submitBtn', 'disabled');
         removeClass('submitBtn', 'enabled');
         return false;
@@ -25,10 +27,12 @@ function checkEmail() {
     if (emailText.match(emailPattern)) {
         setInnerHtml('errorCheck', "<br>");
         removeClass('email', 'error');
+        addClass('email', 'valid');
         return true;
     } else {
         setInnerHtml('errorCheck', "*Email Address Not valid. [some@thing.some]<br>");
         addClass('email', 'error');
+        removeClass('email', 'valid');
         return false;
     }
 }
@@ -37,10 +41,12 @@ function checkName() {
     var nameLength = document.getElementById('name').value.length;
     if (nameLength == 0) {
         addClass('name', 'error');
+        removeClass('name', 'valid');
         setInnerHtml('errorCheck', "*Name is not valid<br>");
         return false;
     } else {
         removeClass('name', 'error');
+        addClass('name', 'valid');
         setInnerHtml('errorCheck', "<br>");
         return true;
     }
@@ -82,6 +88,7 @@ function submitForm(name, email, mobileNum, division) {
             } else if ('used' == this.responseText) { 
                 setInnerHtml('errorCheck', "*Mobile Number is Already used<br>");
                 addClass('mobile','error');
+                removeClass('mobile', 'valid');
              }
             else {
                 document.getElementById("banner").innerHTML = "<p>" + this.responseText + "</p>";

@@ -34,7 +34,10 @@ fieldset {
 }
 
 .error {
-    outline: 1px solid red !important;
+    outline: 2px solid red !important;
+}
+.valid {
+    outline: 2px solid rgb(2, 250, 64) !important;
 }
 
 legend {
